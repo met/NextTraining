@@ -1,0 +1,9 @@
+## Interface: 11303
+## Title: Next Training
+## Notes: Show you next skills that you can learn from your trainer
+## Author: Martin Hassman
+## Version: 0.1 
+## SavedVariables: NextTrainingSharedData
+## SavedVariablesPerCharacter: NextTrainingSettings, NextTrainingData
+
+core.lua
