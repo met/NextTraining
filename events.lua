@@ -110,19 +110,39 @@ function events.TRAINER_UPDATE(...)
 
 end
 
+function events.CHAT_MSG_SKILL(...)
+	local msg = select(1, ...);
+
+	-- Msg templates: ERR_SKILL_GAINED_S , ERR_SKILL_UP_SI.
+	-- We look for this: Your skill in Fishing has increased to 131.
+	local skillName, skillLevel = string.match(msg, "Your skill in (.+) has increased to (%d+).");
+
+	-- we must check it match succeded, because there are another messages for this event as well
+	if skillName ~= nil and skillLevel ~= nil then
+		NS.updatePlayerSkillLevel(NextTrainingData, skillName, skillLevel);
+	end
+end
 
 
-function frame:OnEvent(event, arg1, ...)
+
+
+function frame:OnEvent(event, ...)
+	local arg1 = select(1, ...);
 
 	if event == "ADDON_LOADED" then
 		if arg1 == addonName then
-			events.ADDON_LOADED(arg1, ...)
+			events.ADDON_LOADED(...)
 		end
+
 	elseif event == "TRAINER_UPDATE" then
-		events.TRAINER_UPDATE();
+		events.TRAINER_UPDATE(...);
+
+	elseif event == "CHAT_MSG_SKILL" then
+		events.CHAT_MSG_SKILL(...);
+
 	else
-		print(cRed.."ERROR. Received unhandled event.");
-		print(event, arg1, ...);
+		print(cRed.."ERROR. Recieved unhandled event.");
+		print(event, ...);
 	end
 
 end
@@ -130,6 +150,7 @@ end
 
 frame:RegisterEvent("ADDON_LOADED");
 frame:RegisterEvent("TRAINER_UPDATE");
+frame:RegisterEvent("CHAT_MSG_SKILL");
 
 
 frame:SetScript("OnEvent", frame.OnEvent);

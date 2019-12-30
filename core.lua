@@ -22,3 +22,14 @@ SOFTWARE.
 
 local addonName, NS = ...;
 
+function NS.updatePlayerSkillLevel(setts, skillName, skillLevel)
+	assert(setts, "updatePlayerSkillLevel - setts is nill");
+	assert(skillName, "updatePlayerSkillLevel - skillName is nill");
+	assert(skillLevel, "updatePlayerSkillLevel - skillLevel is nill");
+
+	if setts.skills == nil then
+		setts.skills = {};
+	end
+
+	setts.skills[skillName] = skillLevel;
+end
