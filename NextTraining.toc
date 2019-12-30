@@ -3,7 +3,9 @@
 ## Notes: Show you next skills that you can learn from your trainer
 ## Author: Martin Hassman
 ## Version: 0.1 
-## SavedVariables: NextTrainingSharedData
+## SavedVariables: NextTrainingSharedData, NextTrainingSharedDB
 ## SavedVariablesPerCharacter: NextTrainingSettings, NextTrainingData
 
 core.lua
+events.lua
+sharedDB.lua
