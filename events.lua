@@ -82,10 +82,10 @@ function events.TRAINER_UPDATE(...)
 		-- looking only for skills that are yet unavailable
 		-- sometimes is itemCategory nil, probably when data are still not fully loaded yet
 		if skillName ~= nil and itemCategory == "unavailable" then
-			local levelReq = GetTrainerServiceLevelReq(i);
+			local reqLevel = GetTrainerServiceLevelReq(i);
 			local reqSkillName, reqSkillLevel, hasReq = GetTrainerServiceSkillReq(i); -- "Leatherworking", 20, true
 
-			-- we should check if player has this profession
+			-- TODO we should check if player has this profession
 			-- if not, ignore it
 
 			--print(i, GetTrainerServiceInfo(i));
@@ -94,19 +94,24 @@ function events.TRAINER_UPDATE(...)
 			if reqSkillName and reqSkillLevel then
 				print(cYellow.."Skill name", skillName);
 				print("Next item:", itemName);
-				print("Level req:", levelReq);
+				print("Level req:", reqLevel);
 				print("Skill req:", reqSkillName, reqSkillLevel);
 
 				if NextTrainingData == nil then
 					NextTrainingData = {};
 				end
 
-				if NextTrainingData[skillName] == nil then
-					NextTrainingData[skillName] = {}
+				if NextTrainingData.next == nil then
+					NextTrainingData.next = {};
 				end
 
-				if NextTrainingData[skillName][itemName] == nil then
-					NextTrainingData[skillName][itemName] = {};
+				NextTrainingData.next[skillName] = {};
+				NextTrainingData.next[skillName][itemName] = {};
+
+				NextTrainingData.next[skillName][itemName].reqSkillLevel = reqSkillLevel;
+
+				if reqLevel and reqLevel > 0 then
+					NextTrainingData.next[skillName][itemName].reqLevel = reqLevel;
 				end
 
 				NS.updateBrokerText(skillName.." : "..itemName.." ("..reqSkillLevel..")");

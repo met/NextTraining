@@ -73,10 +73,10 @@ SlashCmdList["TRAINS"] = function(msg)
 	print(cYellow..msg..":");
 	for k,v in spairs(NextTrainingSharedDB[msg], function (t,a,b) return (t[a].reqSkillLevel < t[b].reqSkillLevel); end) do
 
-		if v.levelReq == 0 then
+		if v.reqLevel == 0 then
 			print(cLightBlue..k..cWhite.." sk:"..v.reqSkillLevel.." c: "..v.cost);
 		else
-			print(cLightBlue..k..cWhite.." sk:"..v.reqSkillLevel.." l:"..v.levelReq.." c:"..v.cost);
+			print(cLightBlue..k..cWhite.." sk:"..v.reqSkillLevel.." l:"..v.reqLevel.." c:"..v.cost);
 		end
 	end
 end

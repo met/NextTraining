@@ -37,30 +37,30 @@ function NS.saveNewItemsToDB(db)
 		-- and we ignore header lines
 		if skillName ~= nil and itemCategory ~= nil and itemCategory ~= "header" then
 
-			local levelReq = GetTrainerServiceLevelReq(i);
+			local reqLevel = GetTrainerServiceLevelReq(i);
 			local reqSkillName, reqSkillLevel, hasReq = GetTrainerServiceSkillReq(i); -- "Leatherworking", 20, true
 			local itemCost = GetTrainerServiceCost(i);
 			local itemIcon = GetTrainerServiceIcon(i);
 
-			--print(db, skillName, itemName, levelReq, reqSkillName, reqSkillLevel, itemCost, itemIcon);
+			--print(db, skillName, itemName, reqLevel, reqSkillName, reqSkillLevel, itemCost, itemIcon);
 
 			if reqSkillName == nil then
 				reqSkillName = "";
 			end
 
 			-- add item if not exist yet in DB
-			NS.addNewDBItem(db, skillName, itemName, levelReq, reqSkillName, reqSkillLevel, itemCost, itemIcon);
+			NS.addNewDBItem(db, skillName, itemName, reqLevel, reqSkillName, reqSkillLevel, itemCost, itemIcon);
 
 		end
 	end
 end
 
 
-function NS.addNewDBItem(db, skillName, itemName, levelReq, reqSkillName, reqSkillLevel, itemCost, itemIcon)
+function NS.addNewDBItem(db, skillName, itemName, reqLevel, reqSkillName, reqSkillLevel, itemCost, itemIcon)
 	assert(db, "addNewDBItem - db is nil");
 	assert(skillName, "addNewDBItem - skillName is nil");
 	assert(itemName, "addNewDBItem - itemName is nil");
-	assert(levelReq, "addNewDBItem - levelReq is nil");
+	assert(reqLevel, "addNewDBItem - reqLevel is nil");
 	assert(reqSkillName, "addNewDBItem - reqSkillName is nil");
 	assert(reqSkillLevel, "addNewDBItem - reqSkillLevel is nil");
 	assert(itemCost, "addNewDBItem - itemCost is nil");
@@ -74,7 +74,7 @@ function NS.addNewDBItem(db, skillName, itemName, levelReq, reqSkillName, reqSki
 	-- item is not in DB yet
 	if db[skillName][itemName] == nil then
 		db[skillName][itemName] = {
-			["levelReq"] = levelReq,
+			["reqLevel"] = reqLevel,
 			["reqSkillName"] = reqSkillName,
 			["reqSkillLevel"] = reqSkillLevel,
 			["cost"] = itemCost,
