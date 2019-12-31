@@ -32,6 +32,7 @@ local cGreen1 = "\124cFF38FFBE";
 local frame = CreateFrame("FRAME");
 local events = {};
 
+
 function events.ADDON_LOADED(...)
 	if NextTrainingSharedData == nil then
 		NextTrainingSharedData = {};
@@ -48,7 +49,10 @@ function events.ADDON_LOADED(...)
 	if NextTrainingData == nil then
 		NextTrainingData = {};
 	end
+
+	NS.db = NextTrainingSharedDB;
 end
+
 
 function events.TRAINER_UPDATE(...)
 	local nServices = GetNumTrainerServices();
@@ -66,16 +70,17 @@ function events.TRAINER_UPDATE(...)
 	end
 
 	--print(cYellow.."GetTrainerServiceInfo");
-	NS.saveNewItemsToDB(NextTrainingSharedDB);
+	NS.saveNewItemsToDB(NS.db);
 
 	for i = 1, nServices do
 		local itemName, itemRank, itemCategory = GetTrainerServiceInfo(i);
 		local skillName = GetTrainerServiceSkillLine(i); -- easy way to get name of current skill (work only for lines with training, is nil for headers)
 
-		-- rank empty string usually, or level of spell (eg Shadow Bolt rank 2)
-		-- category = nil, "unavailable", "available" "used", "header"
+		-- rank empty string (usually), or level of spell (eg Shadow Bolt rank 2)
+		-- category = nil, "unavailable", "available", "used", "header"
 
-		-- sometimes is category nil, probably when data are still not fully loaded yet
+		-- looking only for skills that are yet unavailable
+		-- sometimes is itemCategory nil, probably when data are still not fully loaded yet
 		if skillName ~= nil and itemCategory == "unavailable" then
 			local levelReq = GetTrainerServiceLevelReq(i);
 			local reqSkillName, reqSkillLevel, hasReq = GetTrainerServiceSkillReq(i); -- "Leatherworking", 20, true
@@ -83,9 +88,10 @@ function events.TRAINER_UPDATE(...)
 			-- we should check if player has this profession
 			-- if not, ignore it
 
-			print(i, GetTrainerServiceInfo(i));
+			--print(i, GetTrainerServiceInfo(i));
+			print(i, GetTrainerServiceSkillReq(i));
 
-			if hasReq == true then
+			if reqSkillName and reqSkillLevel then
 				print(cYellow.."Skill name", skillName);
 				print("Next item:", itemName);
 				print("Level req:", levelReq);
@@ -103,6 +109,7 @@ function events.TRAINER_UPDATE(...)
 					NextTrainingData[skillName][itemName] = {};
 				end
 
+				NS.updateBrokerText(skillName.." : "..itemName.." ("..reqSkillLevel..")");
 				break; -- we look only for first unavailable skill
 			end
 		end

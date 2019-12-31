@@ -55,6 +55,7 @@ function NS.saveNewItemsToDB(db)
 	end
 end
 
+
 function NS.addNewDBItem(db, skillName, itemName, levelReq, reqSkillName, reqSkillLevel, itemCost, itemIcon)
 	assert(db, "addNewDBItem - db is nil");
 	assert(skillName, "addNewDBItem - skillName is nil");
@@ -83,4 +84,20 @@ function NS.addNewDBItem(db, skillName, itemName, levelReq, reqSkillName, reqSki
 
 		print("Added "..itemName.." to DB.");
 	end
+end
+
+
+function NS.dbStats(db)
+	assert(db, "dbStats - db is nil");
+	local output = {};
+
+	for k,v in pairs(db) do
+		local n = 0;
+		for k1,v1 in pairs(v) do
+			n = n+1;
+		end
+		output[k] = n;
+	end
+
+	return output;
 end
