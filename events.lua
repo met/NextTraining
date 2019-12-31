@@ -50,7 +50,12 @@ function events.ADDON_LOADED(...)
 		NextTrainingData = {};
 	end
 
+	if NextTrainingData.next == nil then
+		NextTrainingData.next = {};
+	end
+
 	NS.db = NextTrainingSharedDB;
+	NS.next = NextTrainingData.next;
 end
 
 
@@ -97,21 +102,15 @@ function events.TRAINER_UPDATE(...)
 				print("Level req:", reqLevel);
 				print("Skill req:", reqSkillName, reqSkillLevel);
 
-				if NextTrainingData == nil then
-					NextTrainingData = {};
-				end
 
-				if NextTrainingData.next == nil then
-					NextTrainingData.next = {};
-				end
+				NS.next[skillName] = {};
+				NS.next[skillName][1] = {};
 
-				NextTrainingData.next[skillName] = {};
-				NextTrainingData.next[skillName][itemName] = {};
+				NS.next[skillName][1].name = itemName;
+				NS.next[skillName][1].reqSkillLevel = reqSkillLevel;
 
-				NextTrainingData.next[skillName][itemName].reqSkillLevel = reqSkillLevel;
-
-				if reqLevel and reqLevel > 0 then
-					NextTrainingData.next[skillName][itemName].reqLevel = reqLevel;
+				if reqLevel and reqLevel > 1 then
+					NS.next[skillName][1].reqLevel = reqLevel;
 				end
 
 				NS.updateBrokerText(skillName.." : "..itemName.." ("..reqSkillLevel..")");
