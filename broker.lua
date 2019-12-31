@@ -70,8 +70,6 @@ function dataobj:OnTooltipShow()
 	self:AddLine(" ");
 
 	for k,v in pairs(NS.next) do
-		print(k,v[1].name);
-
 		if v[1].reqLevel and v[1].reqLevel > 1 then
 			self:AddLine(k.." "..v[1].name.." ("..v[1].reqSkillLevel..", l:"..v[1].reqLevel..")");
 		else
