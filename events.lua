@@ -152,7 +152,7 @@ function frame:OnEvent(event, ...)
 		events.CHAT_MSG_SKILL(...);
 
 	else
-		print(cRed.."ERROR. Recieved unhandled event.");
+		print(cRed.."ERROR. Received unhandled event.");
 		print(event, ...);
 	end
 
