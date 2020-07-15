@@ -94,13 +94,13 @@ function events.TRAINER_UPDATE(...)
 			-- if not, ignore it
 
 			--print(i, GetTrainerServiceInfo(i));
-			print(i, GetTrainerServiceSkillReq(i));
+			--print(i, GetTrainerServiceSkillReq(i));
 
 			if reqSkillName and reqSkillLevel then
-				print(cYellow.."Skill name", skillName);
-				print("Next item:", itemName);
-				print("Level req:", reqLevel);
-				print("Skill req:", reqSkillName, reqSkillLevel);
+				--print(cYellow.."Skill name", skillName);
+				--print("Next item:", itemName);
+				--print("Level req:", reqLevel);
+				--print("Skill req:", reqSkillName, reqSkillLevel);
 
 
 				NS.next[skillName] = {};
