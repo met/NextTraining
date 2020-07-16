@@ -74,9 +74,10 @@ function events.TRAINER_UPDATE(...)
 		return;
 	end
 
-	--print(cYellow.."GetTrainerServiceInfo");
+	--First we save all training items that we do not know yet to our shared DB
 	NS.saveNewItemsToDB(NS.db);
 
+	-- Now we check for next avaliable training and save it into player profile and show on toolbar
 	for i = 1, nServices do
 		local itemName, itemRank, itemCategory = GetTrainerServiceInfo(i);
 		local skillName = GetTrainerServiceSkillLine(i); -- easy way to get name of current skill (work only for lines with training, is nil for headers)
@@ -90,8 +91,11 @@ function events.TRAINER_UPDATE(...)
 			local reqLevel = GetTrainerServiceLevelReq(i);
 			local reqSkillName, reqSkillLevel, hasReq = GetTrainerServiceSkillReq(i); -- "Leatherworking", 20, true
 
-			-- TODO we should check if player has this profession
-			-- if not, ignore it
+			-- Check if player really has this profession, if not, ignore it, do not save next training
+			local playerSkillLevel = NS.getPlayerSkillLevel(NextTrainingData , skillName);
+			if playerSkillLevel == nil or playerSkillLevel == 0 then
+				break;
+			end
 
 			--print(i, GetTrainerServiceInfo(i));
 			--print(i, GetTrainerServiceSkillReq(i));

@@ -26,10 +26,28 @@ function NS.updatePlayerSkillLevel(setts, skillName, skillLevel)
 	assert(setts, "updatePlayerSkillLevel - setts is nill");
 	assert(skillName, "updatePlayerSkillLevel - skillName is nill");
 	assert(skillLevel, "updatePlayerSkillLevel - skillLevel is nill");
+	assert(tonumber(skillLevel), "updatePlayerSkillLevel - skillLevel cannot be converted to number");
 
 	if setts.skills == nil then
 		setts.skills = {};
 	end
 
-	setts.skills[skillName] = skillLevel;
+	setts.skills[skillName] = tonumber(skillLevel);
+end
+
+-- get skill level that we know (if we saved it before) or nil
+function NS.getPlayerSkillLevel(setts, skillName)
+	assert(setts, "getPlayerSkillLevel - setts is nill");
+	assert(skillName, "getPlayerSkillLevel - skillName is nill");
+
+	if setts.skills == nil then	
+		return nil;
+	end
+
+	if setts.skills[skillName] == nil then
+		return nil;
+	end
+
+	local skillLevel = tonumber(setts.skills[skillName]);
+	return skillLevel;
 end

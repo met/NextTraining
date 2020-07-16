@@ -87,6 +87,7 @@ function NS.addNewDBItem(db, skillName, itemName, reqLevel, reqSkillName, reqSki
 end
 
 
+-- Check how many items and what skills are already in shared DB
 function NS.dbStats(db)
 	assert(db, "dbStats - db is nil");
 	local output = {};
