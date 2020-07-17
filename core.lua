@@ -23,9 +23,9 @@ SOFTWARE.
 local addonName, NS = ...;
 
 function NS.updatePlayerSkillLevel(setts, skillName, skillLevel)
-	assert(setts, "updatePlayerSkillLevel - setts is nill");
-	assert(skillName, "updatePlayerSkillLevel - skillName is nill");
-	assert(skillLevel, "updatePlayerSkillLevel - skillLevel is nill");
+	assert(setts, "updatePlayerSkillLevel - setts is nil");
+	assert(skillName, "updatePlayerSkillLevel - skillName is nil");
+	assert(skillLevel, "updatePlayerSkillLevel - skillLevel is nil");
 	assert(tonumber(skillLevel), "updatePlayerSkillLevel - skillLevel cannot be converted to number");
 
 	if setts.skills == nil then
@@ -37,17 +37,13 @@ end
 
 -- get skill level that we know (if we saved it before) or nil
 function NS.getPlayerSkillLevel(setts, skillName)
-	assert(setts, "getPlayerSkillLevel - setts is nill");
-	assert(skillName, "getPlayerSkillLevel - skillName is nill");
+	assert(setts, "getPlayerSkillLevel - setts is nil");
+	assert(skillName, "getPlayerSkillLevel - skillName is nil");
 
-	if setts.skills == nil then	
+	if setts[skillName] == nil then
 		return nil;
 	end
 
-	if setts.skills[skillName] == nil then
-		return nil;
-	end
-
-	local skillLevel = tonumber(setts.skills[skillName]);
+	local skillLevel = tonumber(setts[skillName]);
 	return skillLevel;
 end

@@ -54,8 +54,13 @@ function events.ADDON_LOADED(...)
 		NextTrainingData.next = {};
 	end
 
+	if NextTrainingData.skills == nil then
+		NextTrainingData.skills = {};
+	end	
+
 	NS.db = NextTrainingSharedDB;
 	NS.next = NextTrainingData.next;
+	NS.skills = NextTrainingData.skills;
 end
 
 
@@ -92,7 +97,7 @@ function events.TRAINER_UPDATE(...)
 			local reqSkillName, reqSkillLevel, hasReq = GetTrainerServiceSkillReq(i); -- "Leatherworking", 20, true
 
 			-- Check if player really has this profession, if not, ignore it, do not save next training
-			local playerSkillLevel = NS.getPlayerSkillLevel(NextTrainingData , skillName);
+			local playerSkillLevel = NS.getPlayerSkillLevel(NS.skills , skillName);
 			if playerSkillLevel == nil or playerSkillLevel == 0 then
 				break;
 			end

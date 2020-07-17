@@ -64,9 +64,19 @@ function dataobj:OnTooltipShow()
 
 	for k,v in pairs(NS.next) do
 		if v[1].reqLevel and v[1].reqLevel > 1 then
-			self:AddLine(k.." "..v[1].name.." ("..v[1].reqSkillLevel..", l:"..v[1].reqLevel..")");
+			--both profession level and player level are required
+			if (v[1].reqSkillLevel <= NS.getPlayerSkillLevel(NS.skills, k) and v[1].reqLevel <= UnitLevel("player")) then
+				self:AddLine("==>"..k.." "..v[1].name.." ("..v[1].reqSkillLevel..", l:"..v[1].reqLevel..")"); --mark tranings, that could be done now
+			else
+				self:AddLine(k.." "..v[1].name.." ("..v[1].reqSkillLevel..", l:"..v[1].reqLevel..")");
+			end
 		else
-			self:AddLine(k.." "..v[1].name.." ("..v[1].reqSkillLevel..")");
+			--only profession level is required
+			if (v[1].reqSkillLevel <= NS.getPlayerSkillLevel(NS.skills, k)) then				
+				self:AddLine("==>"..k.." "..v[1].name.." ("..v[1].reqSkillLevel..")"); --mark tranings, that could be done now
+			else
+				self:AddLine(k.." "..v[1].name.." ("..v[1].reqSkillLevel..")");
+			end
 		end
 	end
 
