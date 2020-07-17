@@ -62,24 +62,27 @@ function dataobj:OnTooltipShow()
 	self:AddLine(" ");
 	self:AddLine("Next available training:");
 
+	local cMarked = "==> ";
+
 	for k,v in pairs(NS.next) do
 		if v[1].reqLevel and v[1].reqLevel > 1 then
 			--both profession level and player level are required
+			local prefix = "";
 			if (v[1].reqSkillLevel <= NS.getPlayerSkillLevel(NS.skills, k) and v[1].reqLevel <= UnitLevel("player")) then
-				self:AddLine("==>"..k.." "..v[1].name.." ("..v[1].reqSkillLevel..", l:"..v[1].reqLevel..")"); --mark tranings, that could be done now
-			else
-				self:AddLine(k.." "..v[1].name.." ("..v[1].reqSkillLevel..", l:"..v[1].reqLevel..")");
+				prefix = cMarked; --mark tranings, that could be done now
 			end
+			self:AddDoubleLine(prefix..k, v[1].name.." ("..v[1].reqSkillLevel..", l:"..v[1].reqLevel..")");
 		else
 			--only profession level is required
-			if (v[1].reqSkillLevel <= NS.getPlayerSkillLevel(NS.skills, k)) then				
-				self:AddLine("==>"..k.." "..v[1].name.." ("..v[1].reqSkillLevel..")"); --mark tranings, that could be done now
-			else
-				self:AddLine(k.." "..v[1].name.." ("..v[1].reqSkillLevel..")");
+			local prefix = "";
+			if (v[1].reqSkillLevel <= NS.getPlayerSkillLevel(NS.skills, k)) then
+				 prefix = cMarked; --mark tranings, that could be done now
 			end
+			self:AddDoubleLine(prefix..k, v[1].name.." ("..v[1].reqSkillLevel..")", 1,1,0,0,1,0);
 		end
 	end
 
+	-- show what we already wrote to our DB (only for debugging now, could hide later)
 	self:AddLine(" ");
 	local stats = NS.dbStats(NS.db);
 	self:AddLine("Items in DB:");
