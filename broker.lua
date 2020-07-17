@@ -58,16 +58,7 @@ dataobj = ldb:NewDataObject(addonName, {
 
 
 function dataobj:OnTooltipShow()
-	local stats = NS.dbStats(NS.db);
-
 	self:AddLine(addonName.." v"..GetAddOnMetadata(addonName, "version"));
-	self:AddLine(" ");
-	self:AddLine("Items in DB:");
-
-	for k,v in pairs(stats) do
-		self:AddDoubleLine(k,v, 1,1,0,0,1,0);
-	end
-
 	self:AddLine(" ");
 	self:AddLine("Next available training:");
 
@@ -77,6 +68,14 @@ function dataobj:OnTooltipShow()
 		else
 			self:AddLine(k.." "..v[1].name.." ("..v[1].reqSkillLevel..")");
 		end
+	end
+
+	self:AddLine(" ");
+	local stats = NS.dbStats(NS.db);
+	self:AddLine("Items in DB:");
+
+	for k,v in pairs(stats) do
+		self:AddDoubleLine(k,v, 1,1,0,0,1,0);
 	end
 end
 
