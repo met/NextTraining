@@ -139,7 +139,15 @@ function events.CHAT_MSG_SKILL(...)
 
 	-- we must check it match succeded, because there are another messages for this event as well
 	if skillName ~= nil and skillLevel ~= nil then
+		--save new skill level
 		NS.updatePlayerSkillLevel(NextTrainingData, skillName, skillLevel);
+
+		-- show to player if there is new training
+		local playerLevel = UnitLevel("player");
+
+		if NS.isTrainingAvailableForSkill(NS.next, skillName, skillLevel, playerLevel) then
+			print(cGreen1.."New training is avaliable now.");
+		end
 	end
 end
 

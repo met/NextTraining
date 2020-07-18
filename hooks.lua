@@ -73,9 +73,9 @@ local function hookedActionButtonTooltip(self)
 		-- tooltip is for proffesion button, check if there is any training avaliable
 		local professionName = profIDs[slotId];
 		local skillLevel = NS.getPlayerSkillLevel(NS.skills, professionName);
-		local playerName = UnitLevel("player");
+		local playerLevel = UnitLevel("player");
 
-		if skillLevel~=nil and NS.isTrainingAvailableForSkill(NS.next, professionName, skillLevel, playerName) then
+		if skillLevel~=nil and NS.isTrainingAvailableForSkill(NS.next, professionName, skillLevel, playerLevel) then
 			GameTooltip:AddLine(cGreen1.."New training for "..professionName);
 		else
 			GameTooltip:AddLine(cWhite.."No training available for "..professionName);
