@@ -139,6 +139,8 @@ function events.CHAT_MSG_SKILL(...)
 
 	-- we must check it match succeded, because there are another messages for this event as well
 	if skillName ~= nil and skillLevel ~= nil then
+		skillLevel = tonumber(skillLevel);
+		
 		--save new skill level
 		NS.updatePlayerSkillLevel(NextTrainingData, skillName, skillLevel);
 

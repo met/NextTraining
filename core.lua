@@ -55,6 +55,7 @@ function NS.isTrainingAvailableForSkill(settsNext, skillName, skillLevel, player
 	assert(skillName, "isTrainingAvailableForSkill - skillName is nil");
 	assert(skillLevel, "isTrainingAvailableForSkill - skillLevel is nil");
 	assert(playerLevel, "isTrainingAvailableForSkill - playerLevel is nil");
+	assert(tonumber(skillLevel), "isTrainingAvailableForSkill - not able to convert skillLevel to number");	
 
 	if settsNext[skillName] == nil or
 	   settsNext[skillName][1] == nil or
@@ -64,7 +65,7 @@ function NS.isTrainingAvailableForSkill(settsNext, skillName, skillLevel, player
 
 	local trainingAvailable = false;
 
-	if settsNext[skillName][1].reqSkillLevel <= skillLevel then -- check required skill level
+	if settsNext[skillName][1].reqSkillLevel <= tonumber(skillLevel) then -- check required skill level
 		if settsNext[skillName][1].reqLevel == nil then
 			trainingAvailable = true;  -- there is not limit for player level
 		else			
