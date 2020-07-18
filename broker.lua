@@ -63,19 +63,26 @@ function dataobj:OnTooltipShow()
 	self:AddLine("Next available training:");
 
 	local cMarked = "==> ";
+	local playerLevel = UnitLevel("player");
 
-	for k,v in pairs(NS.next) do
+	for k,v in pairs(NS.next) do -- cycle over all player skills that require training
+
+		local prefix = "";
+		local playerSkillLevel = NS.getPlayerSkillLevel(NS.skills, k);
+
+		if playerSkillLevel == nil then
+			playerSkillLevel = 1; -- we do not know skill level yet, assume 1 for not crash next code ;)
+		end
+
 		if v[1].reqLevel and v[1].reqLevel > 1 then
 			--both profession level and player level are required
-			local prefix = "";
-			if (v[1].reqSkillLevel <= NS.getPlayerSkillLevel(NS.skills, k) and v[1].reqLevel <= UnitLevel("player")) then
+			if (v[1].reqSkillLevel <= playerSkillLevel and v[1].reqLevel <= playerLevel) then
 				prefix = cMarked; --mark tranings, that could be done now
 			end
 			self:AddDoubleLine(prefix..k, v[1].name.." ("..v[1].reqSkillLevel..", l:"..v[1].reqLevel..")");
 		else
 			--only profession level is required
-			local prefix = "";
-			if (v[1].reqSkillLevel <= NS.getPlayerSkillLevel(NS.skills, k)) then
+			if (v[1].reqSkillLevel <= playerSkillLevel) then
 				 prefix = cMarked; --mark tranings, that could be done now
 			end
 			self:AddDoubleLine(prefix..k, v[1].name.." ("..v[1].reqSkillLevel..")", 1,1,0,0,1,0);

@@ -12,6 +12,7 @@ libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 core.lua
 events.lua
+hooks.lua
 sharedDB.lua
 slashcommands.lua
 broker.lua

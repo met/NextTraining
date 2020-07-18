@@ -22,11 +22,12 @@ SOFTWARE.
 
 local addonName, NS = ...;
 
+-- player's skill level has changed, save new value
 function NS.updatePlayerSkillLevel(setts, skillName, skillLevel)
 	assert(setts, "updatePlayerSkillLevel - setts is nil");
 	assert(skillName, "updatePlayerSkillLevel - skillName is nil");
 	assert(skillLevel, "updatePlayerSkillLevel - skillLevel is nil");
-	assert(tonumber(skillLevel), "updatePlayerSkillLevel - skillLevel cannot be converted to number");
+	assert(tonumber(skillLevel), "updatePlayerSkillLevel - not able to convert skillLevel to number");
 
 	if setts.skills == nil then
 		setts.skills = {};
@@ -35,7 +36,7 @@ function NS.updatePlayerSkillLevel(setts, skillName, skillLevel)
 	setts.skills[skillName] = tonumber(skillLevel);
 end
 
--- get skill level that we know (if we saved it before) or nil
+-- get skill level for given skill (or nil if we don't know it)
 function NS.getPlayerSkillLevel(setts, skillName)
 	assert(setts, "getPlayerSkillLevel - setts is nil");
 	assert(skillName, "getPlayerSkillLevel - skillName is nil");
@@ -46,4 +47,32 @@ function NS.getPlayerSkillLevel(setts, skillName)
 
 	local skillLevel = tonumber(setts[skillName]);
 	return skillLevel;
+end
+
+-- true if there is training available for player for given skill
+function NS.isTrainingAvailableForSkill(settsNext, skillName, skillLevel, playerLevel)
+	assert(settsNext, "isTrainingAvailableForSkill - settsNext is nil");
+	assert(skillName, "isTrainingAvailableForSkill - skillName is nil");
+	assert(skillLevel, "isTrainingAvailableForSkill - skillLevel is nil");
+	assert(playerLevel, "isTrainingAvailableForSkill - playerLevel is nil");
+
+	if settsNext[skillName] == nil or
+	   settsNext[skillName][1] == nil or
+	   settsNext[skillName][1].reqSkillLevel == nil then
+		return false; -- we have not data yet, so we don't know about any training
+	end
+
+	local trainingAvailable = false;
+
+	if settsNext[skillName][1].reqSkillLevel <= skillLevel then -- check required skill level
+		if settsNext[skillName][1].reqLevel == nil then
+			trainingAvailable = true;  -- there is not limit for player level
+		else			
+			if settsNext[skillName][1].reqLevel <= playerLevel then -- check player level if matters
+				trainingAvailable = true;
+			end
+		end
+	end
+
+	return trainingAvailable;
 end
