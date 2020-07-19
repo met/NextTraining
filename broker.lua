@@ -79,13 +79,13 @@ function dataobj:OnTooltipShow()
 			if (v[1].reqSkillLevel <= playerSkillLevel and v[1].reqLevel <= playerLevel) then
 				prefix = cMarked; --mark tranings, that could be done now
 			end
-			self:AddDoubleLine(prefix..k, v[1].name.." ("..v[1].reqSkillLevel..", l:"..v[1].reqLevel..")");
+			self:AddDoubleLine(prefix..k, playerSkillLevel.." ("..v[1].reqSkillLevel.."), l:"..v[1].reqLevel.." "..v[1].name, 1,1,0,0,1,0);
 		else
 			--only profession level is required
 			if (v[1].reqSkillLevel <= playerSkillLevel) then
 				 prefix = cMarked; --mark tranings, that could be done now
 			end
-			self:AddDoubleLine(prefix..k, v[1].name.." ("..v[1].reqSkillLevel..")", 1,1,0,0,1,0);
+			self:AddDoubleLine(prefix..k, playerSkillLevel.." ("..v[1].reqSkillLevel..") "..v[1].name, 1,1,0,0,1,0);
 		end
 	end
 
