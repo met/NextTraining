@@ -24,7 +24,7 @@ local addonName, NS = ...;
 
 local dataobj;
 
--- updateBrokerText: work correctly even when no broker is working
+-- updateBrokerText: must not fail even when no broker is installed
 function NS.updateBrokerText(text)
 	if dataobj == nil then
 		return;
@@ -89,6 +89,7 @@ function dataobj:OnTooltipShow()
 		end
 	end
 
+ --[[
 	-- show what we already wrote to our DB (only for debugging now, could hide later)
 	self:AddLine(" ");
 	local stats = NS.dbStats(NS.db);
@@ -97,6 +98,7 @@ function dataobj:OnTooltipShow()
 	for k,v in pairs(stats) do
 		self:AddDoubleLine(k,v, 1,1,0,0,1,0);
 	end
+ --]]	
 end
 
 function dataobj:OnEnter()
