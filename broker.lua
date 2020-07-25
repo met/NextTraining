@@ -89,16 +89,16 @@ function dataobj:OnTooltipShow()
 		end
 	end
 
- --[[
-	-- show what we already wrote to our DB (only for debugging now, could hide later)
-	self:AddLine(" ");
-	local stats = NS.dbStats(NS.db);
-	self:AddLine("Items in DB:");
+	if IsShiftKeyDown() then
+		-- show what we already wrote to our DB (only for debugging now, could hide later)
+		self:AddLine(" ");
+		local stats = NS.dbStats(NS.db);
+		self:AddLine("Items in DB:");
 
-	for k,v in pairs(stats) do
-		self:AddDoubleLine(k,v, 1,1,0,0,1,0);
+		for k,v in pairs(stats) do
+			self:AddDoubleLine(k,v, 1,1,0,0,1,0);
+		end
 	end
- --]]	
 end
 
 function dataobj:OnEnter()
